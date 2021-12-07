@@ -1,36 +1,33 @@
 // LS object
-const ls = new LS();
-
-// Init city
-const initCity = ls.getCityData()
-
+const ls = new LS()
+// Init location data
+const weatherLocation = ls.getLocationData()
 // Weather object
-const weather = new Weather("Tallinn")
-
+const weather = new Weather(weatherLocation)
 // UI object
-const ui = new UI();
+const ui = new UI()
+// Init DOM reload
+document.addEventListener('DOMContentLoaded', getWeather)
 
-// Events
-const form = document.querySelector("#change-city")
-form.addEventListener("submit", changeCityWeather)
+// Change city and get weather data
+const form = document.querySelector('#change-city')
+form.addEventListener('submit', changeCityWeather)
 
-// Change city weather
-function changeCityWeather(event) {
-    const city = document.querySelector("#city-name").value
+function changeCityWeather(event){
+    const city = document.querySelector('#city-name').value
     weather.changeCity(city)
-    ls.setCityData(city)
+    ls.setLocationData(city)
     getWeather()
-    document.querySelector("#city-name").value = ""
+    document.querySelector('#city-name').value = ''
     event.preventDefault()
 }
 
-// Get city weather
+
+// Get city weather and display it
 function getWeather() {
     weather.getWeather()
         .then(data => {
             ui.drawWeather(data)
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
 }
-
-getWeather()
